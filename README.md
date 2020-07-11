@@ -1,0 +1,2 @@
+# SpeechSynthesizeExample
+iOS AVSpeechSynthesizer Example
