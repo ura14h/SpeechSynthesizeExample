@@ -28,8 +28,12 @@ class ViewController: UIViewController {
 		
 		utteranceTextField.text = "こんにちわ、世界。"
 		utteranceTextField.contentVerticalAlignment = .top
-		speedSlider.value = normalizedValue(min: AVSpeechUtteranceMinimumSpeechRate, max: AVSpeechUtteranceMaximumSpeechRate, value: AVSpeechUtteranceDefaultSpeechRate)
-		pitchSlider.value = normalizedValue(min: AVSpeechUtteranceMinimumSpeechPitch, max: AVSpeechUtteranceMaximumSpeechPitch, value: AVSpeechUtteranceDefaultSpeechPitch)
+		speedSlider.minimumValue = AVSpeechUtteranceMinimumSpeechRate
+		speedSlider.maximumValue = AVSpeechUtteranceMaximumSpeechRate
+		speedSlider.value = AVSpeechUtteranceDefaultSpeechRate
+		pitchSlider.minimumValue = AVSpeechUtteranceMinimumSpeechPitch
+		pitchSlider.maximumValue = AVSpeechUtteranceMaximumSpeechPitch
+		pitchSlider.value = AVSpeechUtteranceDefaultSpeechPitch
 	}
 	
 	@IBAction func say(_ sender: Any) {
@@ -40,19 +44,11 @@ class ViewController: UIViewController {
 		let utterance = AVSpeechUtterance(string: text)
 		utterance.voice = AVSpeechSynthesisVoice(language: "ja-JP")
 		
-		utterance.rate = scaledValue(min: AVSpeechUtteranceMinimumSpeechRate, max: AVSpeechUtteranceMaximumSpeechRate, value: speedSlider.value)
-		utterance.pitchMultiplier = scaledValue(min: AVSpeechUtteranceMinimumSpeechPitch, max: AVSpeechUtteranceMaximumSpeechPitch, value: pitchSlider.value)
+		utterance.rate = speedSlider.value
+		utterance.pitchMultiplier = pitchSlider.value
 		print("utterance: rate=\(utterance.rate), pitch=\(utterance.pitchMultiplier)")
 		
 		speechSynthesizer.speak(utterance)
-	}
-	
-	private func normalizedValue(min: Float, max: Float, value: Float) -> Float {
-		return (value - min) / (max - min)
-	}
-	
-	private func scaledValue(min: Float, max: Float, value: Float) -> Float {
-		return (max - min) * value + min
 	}
 	
 	
