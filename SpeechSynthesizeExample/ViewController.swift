@@ -9,17 +9,18 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, AVSpeechSynthesizerDelegate {
 	
 	@IBOutlet weak var utteranceTextField: UITextField!
 	@IBOutlet weak var speedSlider: UISlider!
 	@IBOutlet weak var pitchSlider: UISlider!
+	@IBOutlet weak var sayButton: UIButton!
 	
 	private let AVSpeechUtteranceMinimumSpeechPitch: Float = 0.5
 	private let AVSpeechUtteranceMaximumSpeechPitch: Float = 2.0
 	private let AVSpeechUtteranceDefaultSpeechPitch: Float = 1.0
 	
-	private let speechSynthesizer = AVSpeechSynthesizer()
+	private var speechSynthesizer: AVSpeechSynthesizer!
 	
 	
 	override func viewDidLoad() {
@@ -34,6 +35,9 @@ class ViewController: UIViewController {
 		pitchSlider.minimumValue = AVSpeechUtteranceMinimumSpeechPitch
 		pitchSlider.maximumValue = AVSpeechUtteranceMaximumSpeechPitch
 		pitchSlider.value = AVSpeechUtteranceDefaultSpeechPitch
+		
+		speechSynthesizer = AVSpeechSynthesizer()
+		speechSynthesizer.delegate = self
 	}
 	
 	@IBAction func say(_ sender: Any) {
@@ -48,7 +52,19 @@ class ViewController: UIViewController {
 		utterance.pitchMultiplier = pitchSlider.value
 		print("utterance: rate=\(utterance.rate), pitch=\(utterance.pitchMultiplier)")
 		
+		enableControls(false)
 		speechSynthesizer.speak(utterance)
+	}
+	
+	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+		enableControls(true)
+	}
+	
+	private func enableControls(_ enable: Bool) {
+		utteranceTextField.isEnabled = enable
+		speedSlider.isEnabled = enable
+		pitchSlider.isEnabled = enable
+		sayButton.isEnabled = enable
 	}
 	
 	

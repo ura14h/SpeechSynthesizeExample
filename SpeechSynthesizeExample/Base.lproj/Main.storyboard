@@ -76,6 +76,7 @@
                     </view>
                     <connections>
                         <outlet property="pitchSlider" destination="wNc-2j-HKc" id="9bf-KL-5SB"/>
+                        <outlet property="sayButton" destination="AzV-kC-e1O" id="8Fi-Ar-zI1"/>
                         <outlet property="speedSlider" destination="hRw-Aq-Pnc" id="MGy-iS-HAw"/>
                         <outlet property="utteranceTextField" destination="299-e6-Bsb" id="YpS-Fc-ct1"/>
                     </connections>
